@@ -88,54 +88,62 @@ public class AssetDeliveryPlugin: NSObject, FlutterPlugin {
                 ))
             return
         }
-        let range = args["assetRange"] as? Int ?? 1
-        let namingPattern = args["namingPattern"] as? String ?? "\(tag.uppercased())_%d"
-        let fileExtension = args["extension"] as? String ?? "mp3"
+        let fileName = args["fileName"] as! String
+        let extensionLevel = args["extensionLevel"] as? Int ?? 1
+        var fileNameWithoutExtension = fileName
+        var fileExtension = ""
+        let components = fileName.components(separatedBy: ".")
+        if components.count > extensionLevel {
+            fileNameWithoutExtension = components.dropLast(Int(truncatingIfNeeded: extensionLevel))
+                .joined(separator: ".")
+            fileExtension = fileName.replacingOccurrences(of: "\(fileNameWithoutExtension).", with: "")
+        }
 
-        for i in 1...range {  // Provide dynamic range, customize if needed
-            let assetName = String(format: namingPattern, i)
-            if let image = UIImage(named: assetName) {
-                // Save image as PNG or JPG
-                let fileURL = subfolderURL.appendingPathComponent("\(assetName).png")
-                if let imageData = image.pngData() {
-                    do {
-                        try imageData.write(to: fileURL)
-                    } catch {
-                        cleanupProgressObservation()
-                        result(
-                            FlutterError(
-                                code: "ERROR_SAVING_IMAGE",
-                                message: "Error saving image \(fileURL) for tag: \(tag)",
-                                details: error.localizedDescription
-                            ))
-                        return
-                    }
-                }
-            } else if let asset = NSDataAsset(name: assetName) {
-                // Save as raw data for videos, sounds, etc.
-                let fileURL = subfolderURL.appendingPathComponent("\(assetName).\(fileExtension)")
+        print("fileNameWithoutExtension: \(fileNameWithoutExtension), fileExtension: \(fileExtension), tag: \(tag), dir: \(dir), subfolderURL: \(subfolderURL),")
+        if let image = UIImage(named: fileNameWithoutExtension) {
+            // Save image as PNG or JPG
+            let fileURL = subfolderURL.appendingPathComponent("\(fileNameWithoutExtension).\(fileExtension)")
+            if let imageData = image.pngData() {
                 do {
-                    try asset.data.write(to: fileURL)
+                    print("image: \(image), fileURL: \(fileURL)")
+                    try imageData.write(to: fileURL)
                 } catch {
                     cleanupProgressObservation()
                     result(
                         FlutterError(
-                            code: "ERROR_SAVING_FILE",
-                            message: "Error saving file \(fileURL) for tag: \(tag)",
+                            code: "ERROR_SAVING_IMAGE",
+                            message: "Error saving image \(fileURL) for tag: \(tag)",
                             details: error.localizedDescription
                         ))
                     return
                 }
-            } else {
+            }
+        } else if let asset = NSDataAsset(name: fileNameWithoutExtension) {
+            // Save as raw data for videos, sounds, etc.
+            let fileURL = subfolderURL.appendingPathComponent("\(fileNameWithoutExtension).\(fileExtension)")
+            do {
+                print("asset: \(asset), fileURL: \(fileURL)")
+                try asset.data.write(to: fileURL)
+            } catch {
                 cleanupProgressObservation()
                 result(
                     FlutterError(
-                        code: "RESOURCE_NOT_FOUND",
-                        message: "Resource not found for tag: \(tag), asset: \(assetName)",
-                        details: nil
+                        code: "ERROR_SAVING_FILE",
+                        message: "Error saving file \(fileURL) for tag: \(tag)",
+                        details: error.localizedDescription
                     ))
                 return
             }
+        } else {
+            print("Can not load asset \(fileName) for tag: \(tag)")
+            cleanupProgressObservation()
+            result(
+                FlutterError(
+                    code: "RESOURCE_NOT_FOUND",
+                    message: "Resource not found for tag: \(tag), asset: \(fileName)",
+                    details: nil
+                ))
+            return
         }
 
         cleanupProgressObservation()

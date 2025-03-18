@@ -25,9 +25,8 @@ class MockAssetDeliveryPlatform
   @override
   Future<String?> getAssetPackPath({
     required String assetPackName,
-    required int count,
-    required String namingPattern,
-    required String fileExtension,
+    required String fileName,
+    int extensionLevel = 1,
   }) async {
     return null;
 

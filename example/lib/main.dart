@@ -50,9 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) {
                       return DownloadAssetsPage(
                         assetPackName: 'music',
-                        assetsCount: 4,
-                        namingPattern: 'sound%d',
-                        fileExtension: 'mp3',
+                        fileName: 'sound1.mp3',
                       );
                     },
                   ),
@@ -67,9 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) {
                       return DownloadAssetsPage(
                         assetPackName: 'video',
-                        assetsCount: 1,
-                        namingPattern: 'video%d',
-                        fileExtension: 'mp4',
+                        fileName: 'video1.mp4',
                       );
                     },
                   ),
@@ -85,9 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) {
                         return DownloadAssetsPage(
                           assetPackName: 'dogImage',
-                          assetsCount: 3,
-                          namingPattern: 'dog%d',
-                          fileExtension: 'jpg',
+                          fileName: 'dog3.png',
                         );
                       },
                     ),

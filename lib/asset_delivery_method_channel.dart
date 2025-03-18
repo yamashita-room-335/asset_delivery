@@ -61,9 +61,10 @@ class MethodChannelAssetDelivery extends AssetDeliveryPlatform {
   ///
   /// Parameters:
   /// - [assetPackName]: The name of the asset pack to fetch.
-  /// - [count]: The number of assets in the asset pack.
-  /// - [namingPattern]: The naming pattern for the assets (e.g., "asset_%d").
-  /// - [fileExtension]: The file extension for the assets (e.g., "png", "mp3").
+  /// - [fileName]: The file name for the assets.
+  /// - [extensionLevel]: The file extension level for the iOS assets
+  /// Example1, fileName = "file.g.dart", iOS asset name = "file.g" is extensionLevel = 1.
+  /// Example2, fileName = "file.g.dart", iOS asset name = "file" is extensionLevel = 2.
   ///
   /// Returns:
   /// - A [String] representing the path to the asset pack folder, or `null`
@@ -76,9 +77,8 @@ class MethodChannelAssetDelivery extends AssetDeliveryPlatform {
   Future<String?> getAssetPackPath({
     required String
         assetPackName, // specify the name of the asset pack to fetch
-    required int count, // specify the number of assets in the pack to fetch
-    required String namingPattern, // specify the naming pattern of the assets
-    required String fileExtension, // Specify the file extension for the asset
+    required String fileName, // specify the file name of the asset
+    int extensionLevel = 1, // specify the file extension level of iOS asset
   }) async {
     String? assetPath;
     try {
@@ -88,9 +88,8 @@ class MethodChannelAssetDelivery extends AssetDeliveryPlatform {
       } else if (Platform.isIOS) {
         assetPath = await methodChannel.invokeMethod('getDownloadResources', {
           'tag': assetPackName,
-          'namingPattern': namingPattern,
-          'assetRange': count,
-          'extension': fileExtension,
+          'fileName': fileName,
+          'extensionLevel': extensionLevel,
         });
       } else {
         debugPrint('Unsupported platform');

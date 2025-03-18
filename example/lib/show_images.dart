@@ -38,10 +38,6 @@ class _ShowImagesState extends State<ShowImages> {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 20,
             children: [
-              Image.file(File('$path/dog1.${imageExtention()}'),
-                  fit: BoxFit.fill),
-              Image.file(File('$path/dog2.${imageExtention()}'),
-                  fit: BoxFit.fill),
               Image.file(File('$path/dog3.${imageExtention()}'),
                   fit: BoxFit.fill),
             ],

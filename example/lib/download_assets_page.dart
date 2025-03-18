@@ -11,16 +11,12 @@ import 'package:flutter/services.dart';
 
 class DownloadAssetsPage extends StatefulWidget {
   final String assetPackName;
-  final String namingPattern;
-  final int assetsCount;
-  final String fileExtension;
+  final String fileName;
 
   const DownloadAssetsPage({
     super.key,
     required this.assetPackName,
-    required this.namingPattern,
-    required this.assetsCount,
-    required this.fileExtension,
+    required this.fileName,
   });
 
   @override
@@ -47,9 +43,7 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage>
         if (event.status == 'COMPLETED') {
           AssetDelivery.getAssetPackPath(
             assetPackName: widget.assetPackName,
-            count: widget.assetsCount,
-            namingPattern: widget.namingPattern,
-            fileExtension: widget.fileExtension,
+            fileName: widget.fileName,
           ).then(
             (path) {
               if (path != null && mounted) {}
@@ -118,10 +112,10 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage>
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                if (widget.fileExtension == 'mp3') {
+                                if (widget.fileName.contains('mp3')) {
                                   return PlaySoundsPage(
                                       assetPackPath: path.data!);
-                                } else if (widget.fileExtension == 'jpg') {
+                                } else if (widget.fileName.contains('png')) {
                                   return ShowImages(assetPackPath: path.data!);
                                 } else {
                                   return PlayVideoPage(
@@ -167,9 +161,7 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage>
     try {
       final path = await AssetDelivery.getAssetPackPath(
         assetPackName: widget.assetPackName,
-        count: widget.assetsCount,
-        namingPattern: widget.namingPattern,
-        fileExtension: widget.fileExtension,
+        fileName: widget.fileName,
       ) as String;
       return path;
     } on PlatformException catch (e) {
