@@ -5,6 +5,7 @@ import 'package:video_player/video_player.dart';
 
 class PlayVideoPage extends StatefulWidget {
   final String assetPackPath;
+
   const PlayVideoPage({super.key, required this.assetPackPath});
 
   @override
@@ -48,7 +49,9 @@ class _PlayVideoPageState extends State<PlayVideoPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _controller.value.isPlaying ? _controller.pause() : _controller.play();
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
           });
         },
         child: Icon(

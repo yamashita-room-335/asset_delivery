@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ShowImages extends StatefulWidget {
   final String assetPackPath;
+
   const ShowImages({super.key, required this.assetPackPath});
 
   @override
@@ -37,9 +38,12 @@ class _ShowImagesState extends State<ShowImages> {
             crossAxisAlignment: CrossAxisAlignment.center,
             spacing: 20,
             children: [
-              Image.file(File('$path/dog1.${imageExtention()}'), fit: BoxFit.fill),
-              Image.file(File('$path/dog2.${imageExtention()}'), fit: BoxFit.fill),
-              Image.file(File('$path/dog3.${imageExtention()}'), fit: BoxFit.fill),
+              Image.file(File('$path/dog1.${imageExtention()}'),
+                  fit: BoxFit.fill),
+              Image.file(File('$path/dog2.${imageExtention()}'),
+                  fit: BoxFit.fill),
+              Image.file(File('$path/dog3.${imageExtention()}'),
+                  fit: BoxFit.fill),
             ],
           ),
         ),

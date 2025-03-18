@@ -14,6 +14,7 @@ class DownloadAssetsPage extends StatefulWidget {
   final String namingPattern;
   final int assetsCount;
   final String fileExtension;
+
   const DownloadAssetsPage({
     super.key,
     required this.assetPackName,
@@ -26,7 +27,8 @@ class DownloadAssetsPage extends StatefulWidget {
   State<DownloadAssetsPage> createState() => _DownloadAssetsPageState();
 }
 
-class _DownloadAssetsPageState extends State<DownloadAssetsPage> with TickerProviderStateMixin {
+class _DownloadAssetsPageState extends State<DownloadAssetsPage>
+    with TickerProviderStateMixin {
   final _assetStatusController = StreamController<StatusMap>.broadcast();
   final _assetIosStatusController = StreamController<double>.broadcast();
   double? downloadProgress;
@@ -62,7 +64,8 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage> with TickerProv
           ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('there is an error because of network connection ==== ${e.toString()}'),
+              content: Text(
+                  'there is an error because of network connection ==== ${e.toString()}'),
             ),
           );
         }
@@ -77,7 +80,8 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage> with TickerProv
         },
       );
     }
-    _downloadAnimation = AnimationController(vsync: this, value: 0.0, upperBound: 0.99);
+    _downloadAnimation =
+        AnimationController(vsync: this, value: 0.0, upperBound: 0.99);
 
     super.initState();
   }
@@ -101,7 +105,8 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage> with TickerProv
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: LinearProgressIndicator(
                         value: snapshot.data?.downloadProgress,
                       ),
@@ -114,11 +119,13 @@ class _DownloadAssetsPageState extends State<DownloadAssetsPage> with TickerProv
                             MaterialPageRoute(
                               builder: (context) {
                                 if (widget.fileExtension == 'mp3') {
-                                  return PlaySoundsPage(assetPackPath: path.data!);
+                                  return PlaySoundsPage(
+                                      assetPackPath: path.data!);
                                 } else if (widget.fileExtension == 'jpg') {
                                   return ShowImages(assetPackPath: path.data!);
                                 } else {
-                                  return PlayVideoPage(assetPackPath: path.data!);
+                                  return PlayVideoPage(
+                                      assetPackPath: path.data!);
                                 }
                               },
                             ),

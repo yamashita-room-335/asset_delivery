@@ -149,6 +149,7 @@ class MethodChannelAssetDelivery extends AssetDeliveryPlatform {
 class StatusMap {
   String status;
   double downloadProgress;
+
   StatusMap({required this.status, required this.downloadProgress});
 
   StatusMap.fromJson(Map<String, dynamic> json)

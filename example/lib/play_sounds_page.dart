@@ -5,6 +5,7 @@ import 'package:just_audio/just_audio.dart';
 
 class PlaySoundsPage extends StatefulWidget {
   final String assetPackPath;
+
   const PlaySoundsPage({super.key, required this.assetPackPath});
 
   @override
